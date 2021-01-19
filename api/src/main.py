@@ -30,7 +30,7 @@ async def isTokenOk(authorization: Optional[str] = Header(None)):
         if(authorization.startswith("Bearer ")):
             url = f"https://api.{openBalena}/v6/my_application"
             try:
-                async with aiohttp.ClientSession(headers={"Authorization": authorization}) as session:
+                async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(verify_ssl=False), headers={"Authorization": authorization}) as session:
                     async with session.get(url) as response:
                         if(response.status == 200):
                             return authorization[7:]
